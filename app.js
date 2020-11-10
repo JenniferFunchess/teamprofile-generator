@@ -10,6 +10,117 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+function promptUser(answers) {
+  return inquirer
+    .prompt([
+      {
+        message: "What is your role with the company?",
+        name: "role",
+        type: "list",
+        choices: ["Engineer", "Intern", "Manager"],
+      },
+    ])
+    .then(function (res) {
+      console.log(res);
+      if (res.role === "Engineer") {
+        inquirer
+          .prompt([
+            {
+              name: "name",
+              message: "What is your name?",
+              type: "input",
+            },
+            {
+              name: "email",
+              type: "input",
+              message: "What is your email?",
+            },
+            {
+              name: "github",
+              type: "input",
+              message: "What is your github Username?",
+            },
+          ])
+          .then(function (engineerRes) {
+            var newEngineer = new Engineer(
+              engineerRes.name,
+              engineerRes.email,
+              uniqueId,
+              engineerRes.github
+            );
+            uniqueId = uniqueId + 1;
+            console.log(newEngineer);
+            teamArray.push(newEngineer);
+            addUser();
+          });
+      } else if (res.role === "Intern") {
+        inquirer
+          .prompt([
+            {
+              name: "name",
+              message: "What is your name?",
+              type: "input",
+            },
+            {
+              name: "email",
+              type: "input",
+              message: "What is your email?",
+            },
+            {
+              name: "school",
+              type: "input",
+              message: "Where did you graduate from college?",
+            },
+          ])
+          .then(function (internRes) {
+            var newIntern = new Intern(
+              internRes.name,
+              internRes.email,
+              uniqueId,
+              internRes.school
+            );
+            uniqueId = uniqueId + 1;
+            console.log(newIntern);
+            teamArray.push(newIntern);
+            addUser();
+          });
+      } else if (res.role === "Manager") {
+        inquirer
+          .prompt([
+            {
+              name: "name",
+              message: "What is your name?",
+              type: "input",
+            },
+            {
+              name: "email",
+              type: "input",
+              message: "What is your email?",
+            },
+            {
+              name: "office",
+              type: "input",
+              message: "What is your office number?",
+            },
+          ])
+          .then(function (managerRes) {
+            var newManager = new Manager(
+              managerRes.name,
+              managerRes.email,
+              uniqueId,
+              managerRes.office
+            );
+            uniqueId = uniqueId + 1;
+            console.log(newManager);
+            teamArray.push(newManager);
+            addUser();
+          });
+      }
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
