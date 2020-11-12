@@ -12,7 +12,7 @@ const render = require("./lib/htmlRenderer");
 // const generateManager = renderFile.createManager;
 // const generateEngineer = renderFile.createEngineer;
 // const generateIntern = renderFile.createIntern;
-const renderHTML = renderFile.htmlRenderer.js;
+// const renderHTML = renderFile.htmlRenderer.js;
 
 const promptUser = () => {
   inquirer
