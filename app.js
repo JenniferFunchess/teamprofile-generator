@@ -9,6 +9,10 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+// const generateManager = renderFile.createManager;
+// const generateEngineer = renderFile.createEngineer;
+// const generateIntern = renderFile.createIntern;
+const renderHTML = renderFile.htmlRenderer.js;
 
 const promptUser = () => {
   inquirer
@@ -47,17 +51,17 @@ const promptUser = () => {
               },
             ])
             .then(function (res) {
-              const officeNum = res.office;
-              console.log(officeNum);
+              const officeNumber = res.office;
               const manager = new Manager(
                 data.name,
                 res.id,
                 data.email,
-                officeNum,
+                officeNumber,
                 "Manager"
               );
+              htmlRenderer(name, id, email, officeNumber);
               console.log(manager);
-              employees.push(manager);
+              employee.push(manager);
             })
             .then(function () {});
           break;
@@ -76,15 +80,16 @@ const promptUser = () => {
               },
             ])
             .then(function (res) {
-              const githubName = res.github;
+              const githubUsername = res.github;
               const engineer = new Engineer(
                 data.name,
                 res.id,
                 data.email,
-                githubName,
+                githubUsername,
                 "Engineer"
               );
               employees.push(engineer);
+              htmlRenderer(name, id, email, officeNumber);
             })
             .then(function () {});
           break;
@@ -112,6 +117,7 @@ const promptUser = () => {
                 "Intern"
               );
               employees.push(intern);
+              htmlRenderer(name, id, email, school);
             })
             .then(function () {});
           break;

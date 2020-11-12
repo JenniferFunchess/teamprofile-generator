@@ -14,7 +14,13 @@ Acceptance Criteria
 
 To be able to view this site you can visit my Github profile. This site is also listed below:
 
-- -h
+- Functional application.
+
+- GitHub repository with a unique name and a README describing the project.
+
+- User can use the CLI to generate an HTML page that displays information about their team.
+
+- All tests must pass.
 
 \_\_
 
@@ -24,13 +30,13 @@ Credits
 
 Thank you to each of the websites below for their help in completeing this assignment.
 
-https://phoenixnap.com/kb/how-to-get-the-current-date-and-time-javascript
+https://www.npmjs.com/package/inquirer
 
-https://api.jquery.com/event.timeStamp/
+https://medium.com/serverlessguru/how-to-unit-test-with-nodejs-76967019ba56
 
 https://youtube.com
 
-https://www.w3schools.com/cssref/pr_grid-column.asp
+https://www.w3schools.com/
 
 HTML Validation
 
