@@ -10,121 +10,70 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const employees = [];
-// const generateManager = renderFile.createManager;
-// const generateEngineer = renderFile.createEngineer;
-// const generateIntern = renderFile.createIntern;
-// const renderHTML = renderFile.htmlRenderer.js;
 
-const promptUser = () => {
-  inquirer
+const renderManager = (answers) => {
+  return inquirer
     .prompt([
       {
         type: "input",
-        message: "Name:",
         name: "name",
+        message: "What is your name?",
+      },
+      {
+        type: "number",
+        name: "id",
+        message: "What is your employee ID number?",
       },
       {
         type: "input",
-        message: "Email:",
         name: "email",
+        message: "What is your email address?",
       },
       {
-        type: "list",
-        name: "role",
-        message: "What's Your Position At The Company?",
-        choices: ["Manager", "Engineer", "Intern"],
+        type: "input",
+        name: "officeNumber",
+        message: "What is your office number?",
+      },
+      {
+        type: "validate",
+        name: "addEmployee",
+        message: "Would you like to add another employee??",
       },
     ])
-    .then(function (data) {
-      switch (data.role) {
-        case "Manager":
-          inquirer
-            .prompt([
-              {
-                type: "input",
-                message: "Enter employee ID: ",
-                name: "id",
-              },
-              {
-                type: "input",
-                message: "Enter office number: ",
-                name: "office",
-              },
-            ])
-            .then(function (res) {
-              const officeNumber = res.office;
-              const manager = new Manager(
-                data.name,
-                res.id,
-                data.email,
-                officeNumber,
-                "Manager"
-              );
-              htmlRenderer(name, id, email, officeNumber);
-              console.log(manager);
-              employee.push(manager);
-            })
-            .then(function () {});
-          break;
-        case "Engineer":
-          inquirer
-            .prompt([
-              {
-                type: "input",
-                message: "Enter employee ID: ",
-                name: "id",
-              },
-              {
-                type: "input",
-                message: "Enter github username: ",
-                name: "github",
-              },
-            ])
-            .then(function (res) {
-              const githubUsername = res.github;
-              const engineer = new Engineer(
-                data.name,
-                res.id,
-                data.email,
-                githubUsername,
-                "Engineer"
-              );
-              employees.push(engineer);
-              htmlRenderer(name, id, email, officeNumber);
-            })
-            .then(function () {});
-          break;
-        case "Intern":
-          inquirer
-            .prompt([
-              {
-                type: "input",
-                message: "Enter employee ID: ",
-                name: "id",
-              },
-              {
-                type: "input",
-                message: "Enter school: ",
-                name: "school",
-              },
-            ])
-            .then(function (res) {
-              const internSchool = res.school;
-              const intern = new Intern(
-                data.name,
-                res.id,
-                data.email,
-                internSchool,
-                "Intern"
-              );
-              employees.push(intern);
-              htmlRenderer(name, id, email, school);
-            })
-            .then(function () {});
-          break;
+    .then(function (managerAnswers) {
+      const manager = new Manager(
+        managerAnswers.name,
+        managerAnswers.id,
+        managerAnswers.email,
+        managerAnswers.officeNumber
+      );
+      employees.push(manager);
+      console.log(managerAnswers);
+      if (managerAnswers.addEmployee === "y") {
+        return newTeamMember();
+      } else {
+        return createHTML();
       }
-    })
-    .then(function () {});
+    });
+};
+
+const newTeamMember = () => {
+  const teamQuestion = [
+    {
+      type: "list",
+      name: "createTeam",
+      message: "Which team member do you want to add?",
+      choices: ["Engineer", "Intern", "None"],
+    },
+  ];
+  inquirer.prompt(teamQuestion).then((answers) => {
+    if (answers.createTeam === "Engineer") createEngineer();
+    else if (answers.createTeam === "Intern") createIntern();
+    else {
+      writeTeamPage(render(employees));
+      console.log("Team Page Rendered!");
+    }
+  });
 };
 
 const createHTML = (userInput) => {
@@ -139,4 +88,4 @@ const createHTML = (userInput) => {
   console.log("You're team has been created!");
 };
 
-promptUser();
+renderManager();
