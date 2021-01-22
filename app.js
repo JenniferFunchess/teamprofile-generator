@@ -67,13 +67,59 @@ const newTeamMember = () => {
     },
   ];
   inquirer.prompt(teamQuestion).then((answers) => {
-    if (answers.createTeam === "Engineer") createEngineer();
-    else if (answers.createTeam === "Intern") createIntern();
+    if (answers.createTeam === "Engineer") newEngineer();
+    else if (answers.createTeam === "Intern") newIntern();
     else {
-      writeTeamPage(render(employees));
+      createHTML(render(employees));
       console.log("Team Page Rendered!");
     }
   });
+};
+
+const newEngineer = () => {
+  return inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "What is the engineer's name?",
+      },
+      {
+        type: "number",
+        name: "id",
+        message: "What is the engineer's employee ID number?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is the engineer's email address?",
+      },
+      {
+        type: "input",
+        name: "github",
+        message: "What is the engineer's github name?",
+      },
+      {
+        type: "validate",
+        name: "addEmployee",
+        message: "Would you like to add another employee??",
+      },
+    ])
+    .then(function (engineerAnswers) {
+      const engineer = new Engineer(
+        engineerAnswers.name,
+        engineerAnswers.id,
+        engineerAnswers.email,
+        engineerAnswers.github
+      );
+      employees.push(engineer);
+      console.log(engineerAnswers);
+      if (engineerAnswers.addEmployee === "y") {
+        return newTeamMember();
+      } else {
+        return createHTML();
+      }
+    });
 };
 
 const createHTML = (userInput) => {
