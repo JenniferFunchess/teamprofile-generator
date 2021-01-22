@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const employees = [];
 // const generateManager = renderFile.createManager;
 // const generateEngineer = renderFile.createEngineer;
 // const generateIntern = renderFile.createIntern;
@@ -126,19 +127,16 @@ const promptUser = () => {
     .then(function () {});
 };
 
-const init = async () => {
-  console.log("hi");
-  try {
-    const answers = await promptUser();
-
-    const html = htmlRenderer(answers);
-
-    await writeFileAsync("main", html);
-
-    console.log("Success");
-  } catch (err) {
-    console.log(err);
+const createHTML = (userInput) => {
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR, (err) => {
+      if (err) throw err;
+    });
   }
+  fs.writeFileSync(outputPath, render(userInput), (err) => {
+    if (err) throw err;
+  });
+  console.log("You're team has been created!");
 };
 
 promptUser();
